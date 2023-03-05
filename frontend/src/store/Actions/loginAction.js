@@ -3,10 +3,12 @@ import {
   LOGIN_REQUEST_SUCCESS,
   LOGIN_REQUEST_FAILED,
   USER_LOGOUT,
-
   SIGNUP_REQUEST,
   SIGNUP_REQUEST_SUCCESS,
-  SIGNUP_REQUEST_FAILED
+  SIGNUP_REQUEST_FAILED,
+  FORGOTPASSWORD_REQUEST,
+  FORGOTPASSWORD_REQUEST_SUCCESS,
+  FORGOTPASSWORD_REQUEST_FAILED,
 } from "../Constants/loginTypes";
 
 export const loginRequest = (data) => {
@@ -31,6 +33,18 @@ export const signupSuccess = (data) => {
 
 export const signupFailed = (data) => {
   return { type: SIGNUP_REQUEST_FAILED, payload: data };
+};
+
+export const forgotPasswordRequest = (data) => {
+  return { type: FORGOTPASSWORD_REQUEST, payload: data };
+};
+
+export const forgotPasswordSuccess = (data) => {
+  return { type: FORGOTPASSWORD_REQUEST_SUCCESS, payload: data };
+};
+
+export const forgotPasswordFailed = (data) => {
+  return { type: FORGOTPASSWORD_REQUEST_FAILED, payload: data };
 };
 
 export const userLogout = (data) => {

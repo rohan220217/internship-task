@@ -13,10 +13,15 @@ import Container from "@mui/material/Container";
 import { useCallback, useState } from "react";
 import { debounce } from "../utils/debunce";
 import {
+  forgotPassAllValidation,
+  forgotPassSingleFieldValidation,
   loginAllValidation,
   loginSingleFieldValidation,
 } from "../utils/validation";
-import { loginRequest } from "../store/Actions/loginAction";
+import {
+  forgotPasswordRequest,
+  loginRequest,
+} from "../store/Actions/loginAction";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -39,23 +44,25 @@ function Copyright(props) {
   );
 }
 
-export default function SignIn() {
+export default function ForgotPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loginState = useSelector((state) => state.loginReducer);
 
   const [value, setValue] = useState({
     userEmail: "",
-    userPassword: "",
+    oldPassword: "",
+    newPassword: "",
   });
   const [errors, setErrors] = useState({
     userEmail: "",
-    userPassword: "",
+    oldPassword: "",
+    newPassword: "",
   });
 
   const debounceSingleFieldValidation = useCallback(
     debounce(({ name, value }) => {
-      const { isValid, errors } = loginSingleFieldValidation({
+      const { isValid, errors } = forgotPassSingleFieldValidation({
         key: name,
         value,
       });
@@ -69,11 +76,11 @@ export default function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const { isValid, error } = loginAllValidation(value);
+    const { isValid, error } = forgotPassAllValidation(value);
     if (!isValid) {
       console.log(error);
     } else {
-      dispatch(loginRequest({ value, navigateFn: navigate }));
+      dispatch(forgotPasswordRequest({ value, navigateFn: navigate }));
     }
     setErrors(error);
   };
@@ -102,7 +109,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Forgot password
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -135,8 +142,8 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            name="userPassword"
-            label="Password"
+            name="oldPassword"
+            label="Old Password"
             type="password"
             id="password"
             autoComplete="current-password"
@@ -152,39 +159,55 @@ export default function SignIn() {
                 value: e.target.value,
               });
             }}
-            error={errors && Array.isArray(errors["userPassword"])}
+            error={errors && Array.isArray(errors["oldPassword"])}
             helperText={
-              errors && errors["userPassword"] ? errors["userPassword"][0] : ""
+              errors && errors["oldPassword"] ? errors["oldPassword"][0] : ""
             }
           />
-          <FormControlLabel
-            control={
-              <Checkbox value="remember" color="primary" disabled checked />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="newPassword"
+            label="New Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={(e) => {
+              setValue((prev) => {
+                return {
+                  ...prev,
+                  [e.target.name]: e.target.value,
+                };
+              });
+              debounceSingleFieldValidation({
+                name: e.target.name,
+                value: e.target.value,
+              });
+            }}
+            error={errors && Array.isArray(errors["newPassword"])}
+            helperText={
+              errors && errors["newPassword"] ? errors["newPassword"][0] : ""
             }
-            label="Remember me"
           />
+
           <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
-            {loginState.isLoginLoading ? (
+            {loginState.isForgotPassLoading ? (
               <CircularProgress />
             ) : (
               <Button type="submit" fullWidth variant="contained">
-                Sign In
+                Change password
               </Button>
             )}
           </Box>
-          <Grid container>
-            <Grid item xs>
-              <Link href="/forgotpassword" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
+        </Box>
+        <Grid container>
             <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="/login" variant="body2">
+                {"Have an account? Sign In"}
               </Link>
             </Grid>
           </Grid>
-        </Box>
       </Box>
       <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>

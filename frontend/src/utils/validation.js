@@ -13,6 +13,12 @@ const signupRule = {
   isAdmin: "required|boolean",
 };
 
+const forgotpasswordRule = {
+  userEmail: "required|email",
+  oldPassword: "required|string",
+  newPassword: "required|string",
+};
+
 // Single validation
 export const loginSingleFieldValidation = ({ key, value }) => {
   const validationResponse = { isValid: true };
@@ -42,6 +48,20 @@ export const signupSingleFieldValidation = ({ key, value }) => {
   }
   return validationResponse;
 };
+export const forgotPassSingleFieldValidation = ({ key, value }) => {
+  const validationResponse = { isValid: true };
+  if (forgotpasswordRule[key]) {
+    const validation = new Validator(
+      { [key]: value },
+      { [key]: forgotpasswordRule[key] }
+    );
+    validationResponse.isValid = validation.passes();
+    if (!validationResponse.isValid) {
+      validationResponse.errors = validation.errors.all();
+    }
+  }
+  return validationResponse;
+};
 
 // All validation
 export const loginAllValidation = (data) => {
@@ -54,6 +74,14 @@ export const loginAllValidation = (data) => {
 };
 export const signupAllValidation = (data) => {
   const validation = new Validator(data, signupRule);
+  const validationResponse = { isValid: validation.passes() };
+  if (!validationResponse.isValid) {
+    validationResponse.error = validation.errors.all();
+  }
+  return validationResponse;
+};
+export const forgotPassAllValidation = (data) => {
+  const validation = new Validator(data, forgotpasswordRule);
   const validationResponse = { isValid: validation.passes() };
   if (!validationResponse.isValid) {
     validationResponse.error = validation.errors.all();

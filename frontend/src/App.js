@@ -1,5 +1,6 @@
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ForgotPassword from "./pages/ForgotPassword";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/Signup";
 import CustomRoutes from "./routes/CustomRoutes";
@@ -38,6 +39,7 @@ function App() {
       <Routes>
         <Route path="/login" exact element={<SignIn />} />
         <Route path="/signup" exact element={<SignUp />} />
+        <Route path="/forgotpassword" exact element={<ForgotPassword />} />
         {/*   <Route path="/google/oauth" element={<GoogleRedirect />} /> */}
         <Route path="/*" element={<CustomRoutes />} />
       </Routes>

@@ -5,6 +5,9 @@ import {
   SIGNUP_REQUEST,
   SIGNUP_REQUEST_SUCCESS,
   SIGNUP_REQUEST_FAILED,
+  FORGOTPASSWORD_REQUEST,
+  FORGOTPASSWORD_REQUEST_SUCCESS,
+  FORGOTPASSWORD_REQUEST_FAILED,
   USER_LOGOUT,
 } from "../Constants/loginTypes";
 
@@ -16,6 +19,7 @@ const initialState = {
   token: localStorageToken ? localStorageToken : "",
   isLoginLoading: false,
   isSignupLoading: false,
+  isForgotPassLoading: false,
 };
 
 export const loginReducer = (state = initialState, action) => {
@@ -24,13 +28,14 @@ export const loginReducer = (state = initialState, action) => {
       return { ...state, isLoginLoading: true };
 
     case LOGIN_REQUEST_SUCCESS:
-      localStorage.setItem("ag-token", action.payload.token);
-      localStorage.setItem("ag-user-type", action.payload.isAdmin);
+      localStorage.setItem("ag-token", action.payload.data.token);
+      localStorage.setItem("ag-user-type", action.payload.data.isAdmin);
+      action.payload.navigateFn("/")
       return {
         ...state,
-        token: action.payload.token,
+        token: action.payload.data.token,
         isLoginLoading: false,
-        isAdmin: action.payload.isAdmin,
+        isAdmin: action.payload.data.isAdmin,
       };
 
     case LOGIN_REQUEST_FAILED:
@@ -40,7 +45,7 @@ export const loginReducer = (state = initialState, action) => {
       return { ...state, isSignupLoading: true };
 
     case SIGNUP_REQUEST_SUCCESS:
-      action.payload.nextfunc('/login');
+      action.payload.nextfunc("/login");
       return {
         ...state,
         isSignupLoading: false,
@@ -48,6 +53,19 @@ export const loginReducer = (state = initialState, action) => {
 
     case SIGNUP_REQUEST_FAILED:
       return { ...state, isSignupLoading: false };
+
+    case FORGOTPASSWORD_REQUEST:
+      return { ...state, isForgotPassLoading: true };
+
+    case FORGOTPASSWORD_REQUEST_SUCCESS:
+      action.payload.nextfunc("/login");
+      return {
+        ...state,
+        isForgotPassLoading: false,
+      };
+
+    case FORGOTPASSWORD_REQUEST_FAILED:
+      return { ...state, isForgotPassLoading: false };
 
     case USER_LOGOUT:
       localStorage.clear();
