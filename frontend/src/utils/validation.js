@@ -5,6 +5,14 @@ const loginRule = {
   userPassword: "required|string",
 };
 
+const signupRule = {
+  userEmail: "required|email",
+  userPassword: "required|string",
+  userName: "required|string",
+  userCompany: "required|string",
+  isAdmin: "required|boolean",
+};
+
 // Single validation
 export const loginSingleFieldValidation = ({ key, value }) => {
   const validationResponse = { isValid: true };
@@ -20,10 +28,32 @@ export const loginSingleFieldValidation = ({ key, value }) => {
   }
   return validationResponse;
 };
+export const signupSingleFieldValidation = ({ key, value }) => {
+  const validationResponse = { isValid: true };
+  if (signupRule[key]) {
+    const validation = new Validator(
+      { [key]: value },
+      { [key]: signupRule[key] }
+    );
+    validationResponse.isValid = validation.passes();
+    if (!validationResponse.isValid) {
+      validationResponse.errors = validation.errors.all();
+    }
+  }
+  return validationResponse;
+};
 
 // All validation
 export const loginAllValidation = (data) => {
   const validation = new Validator(data, loginRule);
+  const validationResponse = { isValid: validation.passes() };
+  if (!validationResponse.isValid) {
+    validationResponse.error = validation.errors.all();
+  }
+  return validationResponse;
+};
+export const signupAllValidation = (data) => {
+  const validation = new Validator(data, signupRule);
   const validationResponse = { isValid: validation.passes() };
   if (!validationResponse.isValid) {
     validationResponse.error = validation.errors.all();
