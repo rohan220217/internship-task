@@ -200,7 +200,7 @@ function UserEditModal({ setOpen, setCurrentUserData, open, currentUserData }) {
             inputProps={{ "aria-label": "Without label" }}
           >
             <MenuItem value={"Active"}>Active</MenuItem>
-            <MenuItem value={"Inactive"}>Inactive</MenuItem>
+            <MenuItem value={"InActive"}>InActive</MenuItem>
           </Select>
           <FormHelperText>
             {errors && errors["userStatus"] ? errors["userStatus"][0] : ""}

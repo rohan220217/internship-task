@@ -95,7 +95,7 @@ export const userReducer = (state = initialState, action) => {
     }
     case FILTER_INACTIVE_USERS_SUCCESS: {
       const tempAllUsers = action.payload.data.filter(
-        (user) => user.userStatus === "Inactive"
+        (user) => user.userStatus === "InActive"
       );
       return { ...state, allUsers: tempAllUsers };
     }

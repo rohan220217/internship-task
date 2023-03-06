@@ -1,22 +1,21 @@
-import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import UserCard from "../components/UserCard";
-import { Box, Button, CircularProgress, Toolbar } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { CssBaseline, Container, CircularProgress, Grid } from "@mui/material";
+import UserAppbar from "../components/UserAppbar";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAnalyticsUser } from "../store/Actions/analyticsAction";
-import UserAppbar from "../components/UserAppbar";
-// import Footer from "./Footer";
+import { Box } from "@mui/system";
+import AdRevenueChart from "../components/AdRevenueChart";
+import TotalClickChart from "../components/TotalClickChart";
+import AdImpressionChart from "../components/AdImpressionChart";
 
-export default function UserHomePage() {
-  const dispatch = useDispatch();
+function UserAnalyticsPage() {
   const analyticsState = useSelector((state) => state.analyticsReducer);
+  const dispatch = useDispatch();
   let { userId } = useParams();
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getAllAnalyticsUser({ userId }));
   }, []);
 
@@ -41,19 +40,16 @@ export default function UserHomePage() {
             </Box>
           ) : (
             <Grid container spacing={4} sx={{ mt: 1 }}>
-              {analyticsState.allAnalyticsUser.map((analytics) => (
-                <UserCard key={analytics._id} analytics={analytics} />
-              ))}
+              <AdRevenueChart />
+              <TotalClickChart />
+              <AdImpressionChart />
             </Grid>
           )}
         </main>
       </Container>
-      {/* <Footer
-          title="Footer"
-          description="Something here to give the footer a purpose!"
-        /> */}
     </ThemeProvider>
   );
 }
 
 const theme = createTheme();
+export default UserAnalyticsPage;

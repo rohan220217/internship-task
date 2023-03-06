@@ -75,7 +75,7 @@ export default function AdminHomePage() {
               <Button onClick={fetchAllUsers}>All</Button>
             </LightTooltip>
             <LightTooltip title="All inactive users">
-              <Button onClick={filterInActiveUser}>Inactive</Button>
+              <Button onClick={filterInActiveUser}>InActive</Button>
             </LightTooltip>
             <LightTooltip title="All active users">
               <Button onClick={filterActiveUser}>Active</Button>

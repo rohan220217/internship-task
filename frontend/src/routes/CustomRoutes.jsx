@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import AdminHomePage from "../pages/AdminHomePage";
+import UserAnalyticsPage from "../pages/UserAnalyticsPage";
 import UserHomePage from "../pages/UserHomePage";
 
 function CustomRoutes() {
@@ -14,6 +15,7 @@ function CustomRoutes() {
     <Routes>
       <Route path="/admin" element={<AdminHomePage />} />
       <Route path="/user/:userId" element={<UserHomePage />} />
+      <Route path="/user/analytics/:userId" element={<UserAnalyticsPage />} />
       {/* <Routes path="*" element={<PageNotFound />} /> */}
     </Routes>
   ) : (
