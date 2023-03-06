@@ -78,7 +78,7 @@ const getAllAnalytics = asyncErrorMiddleware(async (req, res) => {
 // user wise analytics
 const getAllAnalyticsUserWise = asyncErrorMiddleware(async (req, res) => {
   const analytics = await Analytics.find({
-    userId: req.user_token_details.userId,
+    userId: req.params.userId,
   }).lean();
   if (!analytics)
     return sendError({ res, code: 404, msg: "No analytics found" });

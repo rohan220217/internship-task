@@ -27,6 +27,8 @@ const loginUser = asyncErrorMiddleware(async (req, res) => {
     isAdmin: user.isAdmin,
     userStatus: user.userStatus,
     token: userToken,
+    _id: user._id,
+    userId: user.userId,
   };
 
   return sendSuccess({ res, data: resObj, msg: "Successfully loggedIn" });

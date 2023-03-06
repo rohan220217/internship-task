@@ -20,7 +20,7 @@ router.post("/add", createAnalytics);
 router.put("/update/:_id", [auth, isAdmin], updateAnalytics);
 
 // get all analytics data userwise
-router.get("/data", [auth], getAllAnalyticsUserWise);
+router.get("/data/:userId", [auth], getAllAnalyticsUserWise);
 
 // get all analytics data
 router.get("/dataAll", [auth], getAllAnalytics);

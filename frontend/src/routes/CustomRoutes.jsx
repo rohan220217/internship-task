@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
-import HomePage from "../pages/HomePage";
+import AdminHomePage from "../pages/AdminHomePage";
+import UserHomePage from "../pages/UserHomePage";
 
 function CustomRoutes() {
   const loginState = useSelector((state) => state.loginReducer);
@@ -10,12 +11,11 @@ function CustomRoutes() {
   };
 
   return checkAuthentication() ? (
-    <div>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        {/* <Routes path="*" element={<PageNotFound />} /> */}
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/admin" element={<AdminHomePage />} />
+      <Route path="/user/:userId" element={<UserHomePage />} />
+      {/* <Routes path="*" element={<PageNotFound />} /> */}
+    </Routes>
   ) : (
     <Navigate to="/login" />
   );

@@ -17,6 +17,7 @@ var localStorageisAdmin = localStorage.getItem("ag-user-type");
 const initialState = {
   isAdmin: localStorageisAdmin ? localStorageisAdmin : false,
   token: localStorageToken ? localStorageToken : "",
+  currentNewUserId: null,
   isLoginLoading: false,
   isSignupLoading: false,
   isForgotPassLoading: false,
@@ -30,7 +31,8 @@ export const loginReducer = (state = initialState, action) => {
     case LOGIN_REQUEST_SUCCESS:
       localStorage.setItem("ag-token", action.payload.data.token);
       localStorage.setItem("ag-user-type", action.payload.data.isAdmin);
-      action.payload.navigateFn("/")
+      if (action.payload.data.isAdmin) action.payload.navigateFn("/admin");
+      else action.payload.navigateFn(`/user/${action.payload.data.userId}`);
       return {
         ...state,
         token: action.payload.data.token,
@@ -49,6 +51,7 @@ export const loginReducer = (state = initialState, action) => {
       return {
         ...state,
         isSignupLoading: false,
+        currentNewUserId: action.payload.data.userId,
       };
 
     case SIGNUP_REQUEST_FAILED:
