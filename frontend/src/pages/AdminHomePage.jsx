@@ -5,7 +5,14 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Header from "../components/Header";
 import AdminCard from "../components/AdminCard";
-import { Box, Button, CircularProgress, Toolbar } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Toolbar,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,6 +33,9 @@ export default function AdminHomePage() {
   const [open, setOpen] = React.useState(false);
   const [isAddUserModal, setIsAddUserModal] = React.useState(false);
   const [currentUserData, setCurrentUserData] = React.useState(null);
+
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
 
   const handleOpen = (user) => {
     setOpen(true);
@@ -61,12 +71,17 @@ export default function AdminHomePage() {
         <Toolbar
           component="nav"
           variant="dense"
-          sx={{ justifyContent: "space-between", mb: 1 }}
+          sx={{
+            justifyContent: "space-between",
+            mb: 1,
+            flexDirection: !matches ? "column" : "row",
+          }}
         >
           <Button
             size="small"
             variant="contained"
             onClick={() => setIsAddUserModal(true)}
+            sx={{ mt: matches ? 0 : 1 }}
           >
             Add User
           </Button>

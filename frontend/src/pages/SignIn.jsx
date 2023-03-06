@@ -19,7 +19,7 @@ import {
 import { loginRequest } from "../store/Actions/loginAction";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link as RRLink, useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -174,12 +174,12 @@ export default function SignIn() {
           </Box>
           <Grid container>
             <Grid item xs>
-              <Link href="/forgotpassword" variant="body2">
+              <Link component={RRLink} to="/forgotpassword" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/signup" variant="body2">
+              <Link component={RRLink} to={`/signup`} variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

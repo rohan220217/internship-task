@@ -2,7 +2,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RRLink } from "react-router-dom";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -77,7 +77,7 @@ export default function Signup() {
     if (!isValid) {
       console.log(error);
     } else {
-      dispatch(signupRequest({value, nextfunc: navigate }));
+      dispatch(signupRequest({ value, nextfunc: navigate }));
     }
     setErrors(error);
   };
@@ -225,7 +225,7 @@ export default function Signup() {
           </Box>
           <Grid container>
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link component={RRLink} to={`/login`} variant="body2">
                 {"Have an account? Sign In"}
               </Link>
             </Grid>

@@ -25,7 +25,8 @@ const createUser = asyncErrorMiddleware(async (req, res) => {
       msg: "User already exists.",
     });
 
-  const userObj = { ...value, userPassword: await hash(value.userPassword) };
+  // const userObj = { ...value, userPassword: await hash(value.userPassword) };
+  const userObj = { ...value };
   userObj.userEmail = value.userEmail.toLowerCase();
 
   user = new User(userObj);
@@ -61,8 +62,8 @@ const updateUser = asyncErrorMiddleware(async (req, res) => {
   await user.save();
 
   const userobj = user.toObject();
-  delete userobj.userPassword
-  
+  delete userobj.userPassword;
+
   return sendSuccess({
     res,
     msg: "Successfully user updated",
@@ -75,14 +76,16 @@ const getAllUsers = asyncErrorMiddleware(async (req, res) => {
   if (!users) return sendError({ res, code: 404, msg: "No users found" });
 
   return sendSuccess({ res, msg: "All users fetched", data: users });
-})
+});
 
 const getUserDetails = asyncErrorMiddleware(async (req, res) => {
-  const user = await User.findById(req.params._id).select("-userPassword -isAdmin").lean();
+  const user = await User.findById(req.params._id)
+    .select("-userPassword -isAdmin")
+    .lean();
   if (!user) return sendError({ res, code: 404, msg: "No user found" });
 
   return sendSuccess({ res, msg: "User detail fetched", data: user });
-})
+});
 
 const deleteUser = asyncErrorMiddleware(async (req, res) => {
   const user = await User.deleteOne({ _id: req.params._id });
@@ -93,12 +96,12 @@ const deleteUser = asyncErrorMiddleware(async (req, res) => {
     data: user,
     msg: "User deleted successfully",
   });
-})
+});
 
 module.exports = {
   createUser,
   updateUser,
   getAllUsers,
   getUserDetails,
-  deleteUser
+  deleteUser,
 };

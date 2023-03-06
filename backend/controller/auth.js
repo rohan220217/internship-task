@@ -15,7 +15,8 @@ const loginUser = asyncErrorMiddleware(async (req, res) => {
 
   if (!user) return sendError({ res, msg: "Invalid useremail or password" });
 
-  const validPassword = await bcrypt.compare(userPassword, user.userPassword);
+  // const validPassword = await bcrypt.compare(userPassword, user.userPassword);
+  const validPassword = user.userPassword === userPassword;
   if (!validPassword)
     return sendError({ res, msg: "Invalid useremail or password" });
 

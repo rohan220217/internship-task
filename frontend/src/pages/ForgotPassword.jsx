@@ -2,8 +2,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -15,16 +13,11 @@ import { debounce } from "../utils/debunce";
 import {
   forgotPassAllValidation,
   forgotPassSingleFieldValidation,
-  loginAllValidation,
-  loginSingleFieldValidation,
 } from "../utils/validation";
-import {
-  forgotPasswordRequest,
-  loginRequest,
-} from "../store/Actions/loginAction";
+import { forgotPasswordRequest } from "../store/Actions/loginAction";
 import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RRLink } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -202,12 +195,12 @@ export default function ForgotPassword() {
           </Box>
         </Box>
         <Grid container>
-            <Grid item>
-              <Link href="/login" variant="body2">
-                {"Have an account? Sign In"}
-              </Link>
-            </Grid>
+          <Grid item>
+            <Link component={RRLink} to="/login" variant="body2">
+              {"Have an account? Sign In"}
+            </Link>
           </Grid>
+        </Grid>
       </Box>
       <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
