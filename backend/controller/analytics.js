@@ -86,6 +86,111 @@ const getAllAnalyticsUserWise = asyncErrorMiddleware(async (req, res) => {
   return sendSuccess({ res, msg: "All analytics fetched", data: analytics });
 });
 
+// website wise analytics
+const getAllAnalyticsWebsite = asyncErrorMiddleware(async (req, res) => {
+  const analytics = await Analytics.aggregate([{
+    $lookup : {
+      from : "users",
+      localField : "userId",
+      foreignField : "userId",
+      as : "user"
+    }
+  },{
+    $unwind : "$user"
+  },{
+    $project : {
+      "commission" : { $divide : [{ $multiply : ["$adRevenueDollars", "$user.userRevenuePercent"]}, 100] },
+      "user" : 1,
+      "website" : 1,
+      "adRevenueDollars": 1,
+      "adImpressions": 1,
+      "avgSiteViewingTime": 1,
+      "totalClicks": 1,
+    }
+  },{
+    $group : {
+      _id : "$website",
+      websiteRevenue : { $sum : "$commission" }
+    }
+  }])
+
+  
+  if (!analytics)
+    return sendError({ res, code: 404, msg: "No analytics found" });
+
+  return sendSuccess({ res, msg: "All analytics fetched", data: analytics });
+});
+
+// website wise analytics
+const getAllAnalyticsUserName = asyncErrorMiddleware(async (req, res) => {
+  const analytics = await Analytics.aggregate([{
+    $lookup : {
+      from : "users",
+      localField : "userId",
+      foreignField : "userId",
+      as : "user"
+    }
+  },{
+    $unwind : "$user"
+  },{
+    $project : {
+      "commission" : { $divide : [{ $multiply : ["$adRevenueDollars", "$user.userRevenuePercent"]}, 100] },
+      "user" : 1,
+      "website" : 1,
+      "adRevenueDollars": 1,
+      "adImpressions": 1,
+      "avgSiteViewingTime": 1,
+      "totalClicks": 1,
+    }
+  },{
+    $group : {
+      _id : "$user.userName",
+      websiteRevenue : { $sum : "$commission" }
+    }
+  }])
+
+  
+  if (!analytics)
+    return sendError({ res, code: 404, msg: "No analytics found" });
+
+  return sendSuccess({ res, msg: "All analytics fetched", data: analytics });
+});
+
+// website wise analytics
+const getAllAnalyticsUserCompany = asyncErrorMiddleware(async (req, res) => {
+  const analytics = await Analytics.aggregate([{
+    $lookup : {
+      from : "users",
+      localField : "userId",
+      foreignField : "userId",
+      as : "user"
+    }
+  },{
+    $unwind : "$user"
+  },{
+    $project : {
+      "commission" : { $divide : [{ $multiply : ["$adRevenueDollars", "$user.userRevenuePercent"]}, 100] },
+      "user" : 1,
+      "website" : 1,
+      "adRevenueDollars": 1,
+      "adImpressions": 1,
+      "avgSiteViewingTime": 1,
+      "totalClicks": 1,
+    }
+  },{
+    $group : {
+      _id : "$user.userCompany",
+      websiteRevenue : { $sum : "$commission" }
+    }
+  }])
+
+  
+  if (!analytics)
+    return sendError({ res, code: 404, msg: "No analytics found" });
+
+  return sendSuccess({ res, msg: "All analytics fetched", data: analytics });
+});
+
 const deleteAnalytics = asyncErrorMiddleware(async (req, res) => {
   const analytic = await Analytics.deleteOne({ _id: req.params._id });
   if (!analytic)
@@ -103,5 +208,8 @@ module.exports = {
   updateAnalytics,
   getAllAnalytics,
   getAllAnalyticsUserWise,
+  getAllAnalyticsWebsite,
+  getAllAnalyticsUserName,
+  getAllAnalyticsUserCompany,
   deleteAnalytics,
 };

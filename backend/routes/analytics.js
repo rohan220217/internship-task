@@ -10,7 +10,10 @@ const {
   updateAnalytics,
   getAllAnalytics,
   getAllAnalyticsUserWise,
-  deleteAnalytics
+  deleteAnalytics,
+  getAllAnalyticsWebsite,
+  getAllAnalyticsUserName,
+  getAllAnalyticsUserCompany
 } = require("../controller/analytics");
 
 // Creating new analytics
@@ -24,6 +27,15 @@ router.get("/data/:userId", [auth], getAllAnalyticsUserWise);
 
 // get all analytics data
 router.get("/dataAll", [auth], getAllAnalytics);
+
+// get all analytics website wise
+router.get("/dataAllWebsites", [auth], getAllAnalyticsWebsite);
+
+// get all analytics user name wise
+router.get("/dataAllUsername", [auth], getAllAnalyticsUserName);
+
+// get all analytics user name wise
+router.get("/dataAllUserCompany", [auth], getAllAnalyticsUserCompany);
 
 // //get user data (only for admin)
 // router.get("/details", [auth, isAdmin], getUserDetails);

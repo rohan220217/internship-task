@@ -14,6 +14,36 @@ export const getAllAnalyticsUserApi = async ({ userId }) => {
     throw Error(e.response?.data?.msg ?? "Something went wrong");
   }
 };
+export const getAllAnalyticsWebApi = async () => {
+  try {
+    const res = await axios.get(BASE_URL + "/analytics/dataAllWebsites", {
+      headers: { ...authHeader() },
+    });
+    return res.data.data;
+  } catch (e) {
+    throw Error(e.response?.data?.msg ?? "Something went wrong");
+  }
+};
+export const getWebRevenueApi = async () => {
+  try {
+    const res = await axios.get(BASE_URL + "/analytics/dataAllUsername", {
+      headers: { ...authHeader() },
+    });
+    return res.data.data;
+  } catch (e) {
+    throw Error(e.response?.data?.msg ?? "Something went wrong");
+  }
+};
+export const getCompanyRevenueApi = async () => {
+  try {
+    const res = await axios.get(BASE_URL + "/analytics/dataAllUserCompany", {
+      headers: { ...authHeader() },
+    });
+    return res.data.data;
+  } catch (e) {
+    throw Error(e.response?.data?.msg ?? "Something went wrong");
+  }
+};
 export const addAnalyticsApi = async ({ value }) => {
   try {
     const res = await axios.post(BASE_URL + "/analytics/add", value, {
